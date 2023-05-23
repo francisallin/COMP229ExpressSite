@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "title": "First Post",
+        "content":"Lorem Ipsum",
+        "tag": ["tag1", "tag2", "tag3"],
+        "createdAt": "Mon Aug 27 2018 15:16:17 GMT+0200 (CEST)",
+        "updatedAt": "Mon Aug 27 2018 15:16:17 GMT+0200 (CEST)"
+    },
+    {
+        "id": 2,
+        "title": "Second Post",
+        "content":"Lorem Ipsum again",
+        "tag": ["tag2", "tag4"],
+        "createdAt": "Mon Aug 27 2018 15:16:18 GMT+0200 (CEST)",
+        "updatedAt": "Mon Aug 27 2018 15:16:18 GMT+0200 (CEST)"
+    }
+]
