@@ -1,18 +1,19 @@
 //imports the functions from helper
-const helper = require('../helper.js');
+const helper = require('../helpers/helper.js');
 const { writeJSONFile, getNewId, newDate } = require('../helpers/helper.js');
 //variable, can use let or var but use const here because it is not changing
-const filename = '../posts.json';
+const filename = '../data/posts.json';
 //get array from filename
 let posts = require(filename);
 //read
 //get all posts
+
 const getPosts = ()=>{
     return new Promise ((resolve, reject)=>{
         //if else for responding to null array
-        if(posts.length ===0){ //triple "=" to match case && value
+        if(posts.length === 0){ //triple "=" to match case && value
             reject({
-                message: "Sarry, no posts available to display!",
+                message: "Sorry, no posts available to display!",
                 status: 202
             })
         }
@@ -21,9 +22,10 @@ const getPosts = ()=>{
         }        
     })
 }
+
 //get particular post
 const getpost = (id) =>{
-    return Promise ((resolve, reject)=>{ // no need create new promise, because mustBeInArray already create one
+    return new Promise ((resolve, reject)=>{ // no need create new promise, because mustBeInArray already create one
         helper.mustBeInArray(posts, id)
         .then(post => resolve (post))//can chain another .then() if needed
         .catch(err => reject(err))//if reject      
@@ -40,13 +42,13 @@ const insertPost = (newPost)=>{
         }
         newPost = {...id, ...date, ...newPost};//... = spread operator, pack up everything as obj attr
         posts.push(newPost);
-        writeJSONFile(filename, posts);
+        helper.writeJSONFile(filename, posts);
         resolve(newPost, 200);
     })
 }
 //update post
 const updatePost = (id, newPost)=>{
-    return new Promise((res, rej)=>{ 
+    return new Promise((resolve, reject)=>{ 
         helper.mustBeInArray(posts, id)
         .then(
             post => {
@@ -54,10 +56,10 @@ const updatePost = (id, newPost)=>{
                 id = {id: post.id}//not getNewId because just get original id
                 const date = {
                     createdAt: post.createdAt,
-                    updatedAt: newDate()
+                    updatedAt: helper.newDate()
                 }
-                posts[index] = {...id, ...date, ...newPost} //loop through posts, make new post at that index
-                writeJSONFile(filename, posts);
+                posts[index] = {...id, ...date, ...newPost} //make new post at that index
+                helper.writeJSONFile(filename, posts);
                 resolve(posts[index]);
             }
         )
@@ -66,7 +68,7 @@ const updatePost = (id, newPost)=>{
 }
 //delete post
 const deletePost = (id)=>{
-    return new Promise((res, rej)=>{ 
+    return new Promise((resolve, reject)=>{ 
         helper.mustBeInArray(posts, id)
         .then(()=>{
             //filter will loop throught the array
@@ -78,4 +80,12 @@ const deletePost = (id)=>{
         })
         .catch(err => reject(err))      
     })
+}
+
+module.exports ={
+    insertPost,
+    getPosts,
+    getpost, 
+    updatePost, 
+    deletePost
 }

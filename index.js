@@ -15,11 +15,12 @@ const app = express();
 app.use(morgan('tiny'));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(require('./routes/index.routes.js'))//save the stuff in this js in app obj
+app.use(require('./routes/index.routes'))//save the stuff in this js in app obj
 //first route (route=Eg: /main)
 app.get('/', (req, res)=>{
     res.json({
         message: "Welcome to the class"
     })
 });
+
 app.listen('8080');
